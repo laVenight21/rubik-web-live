@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <title>CubeLab — Rubik Solver</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    #video { position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; transform:none; }
+    #view { width:100%; aspect-ratio:16/9; object-fit:contain; background:#070b15; border-radius:16px; display:block; }
+  </style>
+</head>
+<body>
+<main class="app-shell">
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="CubeLab beranda">
+      <span class="brand-mark"><span></span><span></span><span></span><span></span></span>
+      <span>CUBE<span class="brand-accent">LAB</span></span>
+    </a>
+    <span class="top-tag"><i></i> RUBIK ASSISTANT</span>
+  </header>
+
+  <section class="intro">
+    <div class="eyebrow">SCAN · ANALYZE · SOLVE</div>
+    <h1>Taklukkan kubusmu<span>.</span></h1>
+    <p>Arahkan kamera ke Rubik dan ikuti panduan langkah demi langkah untuk menyelesaikannya.</p>
+  </section>
+
+  <section class="solver-card" aria-label="Area solver">
+    <div class="panel-heading">
+      <div>
+        <div class="section-kicker">LIVE WORKSPACE</div>
+        <h2>Area pemindaian</h2>
+      </div>
+      <span class="live-pill"><i></i> LIVE VIEW</span>
+    </div>
+
+    <video id="video" autoplay playsinline muted></video>
+    <canvas id="canvas" width="640" height="360" hidden></canvas>
+    <div class="view-frame">
+      <img id="view" alt="Tampilan solver Rubik" hidden>
+      <div class="empty-state" id="empty-state">
+        <div class="cube-art" aria-hidden="true">
+          <div class="cube-face face-top"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
+          <div class="cube-face face-left"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
+          <div class="cube-face face-right"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
+        </div>
+        <strong>Siap untuk memulai?</strong>
+        <span>Tekan tombol mulai untuk mengaktifkan kamera dan solver.</span>
+      </div>
+    </div>
+
+    <div class="control-row">
+      <div class="control-copy">
+        <span class="control-label">KONTROL SOLVER</span>
+        <span class="control-hint">Gunakan tombol sesuai instruksi di layar.</span>
+      </div>
+      <div class="buttons">
+        <button id="btn-start" class="btn-primary"><span class="play-icon">▶</span> Mulai pemindaian</button>
+        <button id="btn-y" class="btn-yes" hidden>Ya <kbd>Y</kbd></button>
+        <button id="btn-n" class="btn-no" hidden>Tidak <kbd>N</kbd></button>
+        <button id="btn-q" class="btn-stop" hidden>Berhenti <kbd>Q</kbd></button>
+      </div>
+    </div>
+    <div class="status-line"><span class="status-dot"></span><p id="status" aria-live="polite">Menunggu kamera diaktifkan.</p></div>
+  </section>
+
+  <section class="info-grid">
+    <article class="info-card">
+      <span class="info-number">01</span>
+      <div><h3>Pindai sisi Rubik</h3><p>Ikuti arahan solver saat kamera membaca warna setiap sisi.</p></div>
+    </article>
+    <article class="info-card">
+      <span class="info-number">02</span>
+      <div><h3>Ikuti instruksi</h3><p>Perhatikan garis, panah, dan konfirmasi yang muncul di layar.</p></div>
+    </article>
+    <article class="info-card">
+      <span class="info-number">03</span>
+      <div><h3>Selesaikan kubus</h3><p>Lakukan gerakan sesuai urutan sampai proses selesai.</p></div>
+    </article>
+  </section>
+
+  <footer><span> CUBELAB <span class="footer-dot">•</span> RUBIK SOLVER</span><span>Eksperimen. Pelajari. Selesaikan.</span></footer>
+</main>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+<script>
+  const solverView = document.getElementById('view');
+  const emptyState = document.getElementById('empty-state');
+  const observer = new MutationObserver(() => {
+    emptyState.hidden = !solverView.hidden;
+  });
+  observer.observe(solverView, { attributes: true, attributeFilter: ['hidden'] });
+  emptyState.hidden = !solverView.hidden;
+</script>
+</body>
+</html>
