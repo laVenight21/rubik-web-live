@@ -1155,8 +1155,9 @@ def detect_face(video, center_color):
         # cv2.imshow('mask_white', masks[5])
         
         
-        if not verified:
-            draw_face(img, face)
+        # Tetap tampilkan panel 3x3 selama proses pemindaian,
+        # termasuk setelah sisi sebelumnya dikonfirmasi.
+        draw_face(img, face)
 
         cv2.imshow('CUBE SOLVER', img)
 
@@ -1287,7 +1288,7 @@ def draw_face(img, face):
             end_point_piece_y = origin_piece_y + piece_height
             end_point_piece = (end_point_piece_x, end_point_piece_y)
             
-            cv2.rectangle(img, origin_face, end_point_piece, colors_bgr["black"], 2)
+            cv2.rectangle(img, origin_piece, end_point_piece, colors_bgr["black"], 2)
 
     draw_text(img, text = "DETEKSI", origin = (505, 132))
             
